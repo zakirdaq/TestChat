@@ -1,0 +1,1 @@
+﻿ALl static file will be serve from here .
