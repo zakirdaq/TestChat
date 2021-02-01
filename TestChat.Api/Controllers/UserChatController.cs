@@ -92,7 +92,7 @@ namespace TestChat.Api.Controllers
                 {
                     returnResult.code = 1;
                     returnResult.message = "text_chat_create_success";
-                    await _hubContext.Clients.All.SendAsync("ReceiveOne", userChatObj.Id, userChatObj.SenderId, userChatObj.RecieverId, Sender.FirstName + " " + Sender.LastName + " to "+ Reciever.FirstName + " " + Reciever.LastName, returnObj.MessageTime.ToLongTimeString(), mappingResource.Message);
+                    await _hubContext.Clients.Group(User.Identity.Name).SendAsync("ReceiveMessage", userChatObj.Id, userChatObj.SenderId, userChatObj.RecieverId, Sender.FirstName + " " + Sender.LastName, returnObj.MessageTime.ToLongTimeString(), mappingResource.Message);
                 }
 
                 return Ok(returnResult);
