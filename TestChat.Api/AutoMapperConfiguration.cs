@@ -26,7 +26,7 @@ namespace TestChat.Api
 
                 #region UserChats => UserChatViewModel
                 cfg.CreateMap<UserChats, UserChatViewModel>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                                                                .ForMember(dest => dest.UserInfo, opt => opt.MapFrom(src => src.Sender.FirstName + " " + src.Sender.LastName + " to " + src.Reciever.FirstName + " " + src.Reciever.LastName))
+                                                                .ForMember(dest => dest.UserInfo, opt => opt.MapFrom(src => src.Sender.FirstName + " " + src.Sender.LastName))
                                                                 .ForMember(dest => dest.SenderId, opt => opt.MapFrom(src => src.SenderId))
                                                                 .ForMember(dest => dest.RecieverId, opt => opt.MapFrom(src => src.RecieverId))
                                                                 .ForMember(dest => dest.Message, opt => opt.MapFrom(src => src.Message))

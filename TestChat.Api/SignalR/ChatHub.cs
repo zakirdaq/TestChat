@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;                                         
 using System;
 using System.Collections.Generic;
@@ -7,21 +8,27 @@ using System.Threading.Tasks;
 
 namespace TestChat.Api.SignalR
 {
-    [Authorize]
     public class ChatHub : Hub                                              
     {
         public async Task SendChatMessage(string who, string message)
         {
-            string name = Context.User.Identity.Name;
-
-            await Clients.Group(who).SendAsync(name + ": " + message);
+            await Clients.Group(who).SendAsync(message);
         }
 
         public override async Task OnConnectedAsync()
         {
-            string groupName = Context.User.Identity.Name;
+            var httpContext = Context.GetHttpContext();
+            if (httpContext != null)
+            {
+                try
+                {
+                    var groupName = httpContext.Request.Query["groupName"].ToString();
 
-            await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+                    await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+                }
+                catch (Exception) { }
+            }
+
         }
     }
 }
