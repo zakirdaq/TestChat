@@ -12,7 +12,7 @@ namespace TestChat.Core.Services
         Task<UserChats> Update(UserChats obj);
         Task<UserChats> Update(UserChats objToBeUpdated, UserChats obj);
         Task<UserChats> GetById(Guid id);
-        Task<IEnumerable<UserChats>> GetByUserId(Guid userId);
+        Task<IEnumerable<UserChats>> GetByUserId(Guid senderId, Guid recieverId);
         Task Remove(UserChats obj);
     }
 }

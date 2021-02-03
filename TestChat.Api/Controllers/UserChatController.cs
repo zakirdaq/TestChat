@@ -127,11 +127,13 @@ namespace TestChat.Api.Controllers
         #endregion remove
 
         #region GetByUserId
-        [HttpGet("GetByUserId/{userId}")]
+        [HttpGet("GetByUserId/{recieverId}")]
         [Authorize]
-        public async Task<IActionResult> GetByUserId(Guid userId)
+        public async Task<IActionResult> GetByUserId(Guid recieverId)
         {
-            var uc = (await iUserChatService.GetByUserId(userId)).OrderBy(o=>o.MessageTime);
+            Users Sender = await iUserService.GetByEmail(User.Identity.Name);
+
+            var uc = (await iUserChatService.GetByUserId(Sender.Id, recieverId)).OrderBy(o=>o.MessageTime);
             var ucv = AutoMapperConfiguration.Mapper.Map<IEnumerable<UserChats>, IEnumerable<UserChatViewModel>>(uc);
 
             return Ok(ucv);

@@ -37,9 +37,9 @@ namespace TestChat.Services.Services
             return await _unitOfWork.IUserChatRepository.SingleOrDefaultAsync(a => a.Id == id);
         }
 
-        public async Task<IEnumerable<UserChats>> GetByUserId(Guid userId)
+        public async Task<IEnumerable<UserChats>> GetByUserId(Guid senderId, Guid recieverId)
         {
-            return await _unitOfWork.IUserChatRepository.FindAsync(a => a.SenderId == userId || a.RecieverId == userId, inc => inc.Reciever, inc2=>inc2.Sender);
+            return await _unitOfWork.IUserChatRepository.FindAsync(a => (a.SenderId == senderId && a.RecieverId == recieverId) || (a.SenderId == recieverId && a.RecieverId == senderId), inc => inc.Reciever, inc2=>inc2.Sender);
         }
 
         public async Task<UserChats> Update(UserChats obj)
